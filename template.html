@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Bootstrap 101 Template</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="bootcamp.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Hello, world!</h1>
+        <div class="row">
+        <div class="col-md-6">
+        <form>
+            <div class="form-group">
+             
+              <input type="text" class="form-control" id="inputPhone" aria-describedby="phoneHelp" placeholder="Enter your phone number">
+            </div>
+            <div class="form-group">
+             
+                <input type="text" class="form-control" id="inputMessage" aria-describedby="messageHelp" placeholder="Enter the text message you would like to send">
+            </div>
+            <button type="button" class="btn btn-primary" id="sendText">Submit</button>
+          </form>
+        </div>
+        <div class="col-md-6">
+            <button type="button" class="btn btn-success" id="pollyButton">Voice My Message Using Polly</button>
+            <audio id="audioPlayback" controls>
+                <source id="audioSource" type="audio/mp3" src="">
+              <p id="result">result</p>
+      </audio>
+        </div>
+    </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.279.1.min.js"></script>
+
+    <script src="bootcamp.js"></script>
+    <!-- All your code goes below here-->
+    <script type="text/javascript">
+        // Initialize the Amazon Cognito credentials provider
+        AWS.config.region = 'REGION'; 
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({IdentityPoolId: 'IDENTITY_POOL_ID'});
+
+        //this function gets called on page load
+        bootcamp.page.startUp = function(){
+            //wire up the click event of the submit button to call our sendTextMessage function
+            $("#sendText").on("click", bootcamp.page.sendTextMessageUsingTwilio);
+            //wire up polly voice event
+            $("#pollyButton").on("click", bootcamp.page.sendTextToPolly);
+        }
+
+        bootcamp.page.sendTextMessageUsingTwilio = function() {
+            //grab the value of the input field which contains a phone number
+            var myPhoneNumber = $("#inputPhone").val();
+            //print the number to the console to ensure we have stored it correctly in a variable
+            console.log(myPhoneNumber);
+
+
+
+            //your twilio api call goes here
+
+           
+        }
+
+        bootcamp.page.sendTextMessageUsingSNS = function() {
+              //grab the value of the input field which contains a phone number
+              var myPhoneNumber = $("#inputPhone").val();
+            //print the number to the console to ensure we have stored it correctly in a variable
+            console.log(myPhoneNumber);
+
+             //your sns api call goes here
+
+        }
+
+        bootcamp.page.sendTextToPolly = function() {
+               // Create synthesizeSpeech params JSON
+            var speechParams = {
+                OutputFormat: "mp3",
+                SampleRate: "16000",
+                Text: "",
+                TextType: "text",
+                VoiceId: "Matthew"
+            };
+             //grab the value of the input field which contains a phone number
+             var messageToVoice = $("#inputMessage").val();
+            
+            //add the text to the object in the text property
+            speechParams.Text = messageToVoice;
+
+            //your polly call goes here, this is extra credit!
+            
+        }
+
+
+
+
+    </script>
